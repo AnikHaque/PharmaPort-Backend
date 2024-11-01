@@ -347,6 +347,20 @@ async function run() {
       res.send({ totalPrice });
     });
 
+      app.put('/carts/:id', verifyToken, async (req, res) => {
+      const id = req.params.id
+      const filter = { _id: new ObjectId(id) }
+      const updateCart = req.body
+      const updateDoc = {
+        $set: {
+          quantity: updateCart.quantity,
+          subTotal: updateCart.subTotal,
+        }
+      }
+      const result = await cartsCollection.updateOne(filter, updateDoc);
+      res.send(result)
+    })
+
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
