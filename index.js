@@ -339,6 +339,14 @@ async function run() {
       res.send(result)
     })
 
+     app.get("/carts/total", async (req, res) => {
+      const email = req.query.email
+      const query = { email: email }
+      const payments = await cartsCollection.find(query).toArray();
+      const totalPrice = payments.reduce((sum, payment) => sum + payment.subTotal, 0);
+      res.send({ totalPrice });
+    });
+
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
