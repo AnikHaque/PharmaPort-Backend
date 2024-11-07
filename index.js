@@ -297,6 +297,27 @@ async function run() {
       res.send(result)
     })
 
+     app.put('/medicine/:id', verifyToken, async (req, res) => {
+      const id = req.params.id
+      const filter = { _id: new ObjectId(id) }
+      const updateMedicine = req.body
+      const updateDoc = {
+        $set: {
+          medicineName: updateMedicine.medicineName,
+          genericName: updateMedicine.genericName,
+          shortDescription: updateMedicine.shortDescription,
+          medicineImage: updateMedicine.medicineImage,
+          company: updateMedicine.company,
+          medicineMassUnit: updateMedicine.medicineMassUnit,
+          perUnitPrice: updateMedicine.perUnitPrice,
+          discountPercentage: updateMedicine.discountPercentage,
+        }
+      }
+      const result = await medicineCollection.updateOne(filter, updateDoc);
+      res.send(result)
+    })
+    
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
   }
