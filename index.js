@@ -285,6 +285,12 @@ async function run() {
       res.send(result)
     });
 
+     app.get('/categoryMedicine', async (req, res) => {
+      const categoryName = req.query.category;
+      const medicines = await medicineCollection.find({ medicineCategory: categoryName }).toArray();
+      res.send(medicines);
+    });
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
   }
