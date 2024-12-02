@@ -20,3 +20,30 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
+
+async function run() {
+  try {
+    const database = client.db("MediMart");
+    const usersCollection = database.collection("users");
+    const categoryCollection = database.collection("category");
+    const advertisementCollection = database.collection("advertisement");
+    const medicineCollection = database.collection("medicine");
+    const cartsCollection = database.collection("carts");
+    const paymentCollection = database.collection("payments");
+    const articlesCollection = database.collection("articles");
+
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    // await client.close();
+  }
+}
+run().catch(console.dir);
+
+app.get('/', (req, res) => {
+  res.send("MediMart Website make ...")
+})
+
+app.listen(port, () => {
+  console.log("Server Runnig", port);
+})
