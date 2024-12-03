@@ -32,6 +32,12 @@ async function run() {
     const paymentCollection = database.collection("payments");
     const articlesCollection = database.collection("articles");
 
+    app.post('/jwt', async (req, res) => {
+      const user = req.body
+      const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '30d' })
+      res.send({ token });
+    })
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
