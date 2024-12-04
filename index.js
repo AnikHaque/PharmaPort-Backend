@@ -38,6 +38,24 @@ async function run() {
       res.send({ token });
     })
 
+    const verifyToken = (req, res, next) => {
+      console.log("Headers received:", req.headers); // Check headers
+
+      if (!req.headers.authorization) {
+        return res.status(401).send({ message: "forbidden access" })
+      }
+
+      const token = req.headers.authorization.split(' ')[1];
+      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+          return res.status(401).send({ message: "forbidden access" })
+        }
+        req.decoded = decoded
+        next()
+      });
+
+    }
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
