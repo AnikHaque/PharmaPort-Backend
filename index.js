@@ -56,6 +56,21 @@ async function run() {
 
     }
 
+      const verifyAdmin = async (req, res, next) => {
+      const userEmail = req.decoded.email
+      console.log(req.decoded, "decoded");
+      const query = { userEmail: userEmail }
+      console.log(query, "query");
+      const user = await usersCollection.findOne(query)
+      console.log(user, "user");
+      const isAdmin = user?.userRole === "Admin"
+      if (!isAdmin) {
+        return res.status(403).send({ message: "forbidden access" })
+      }
+      next()
+    }
+    
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
