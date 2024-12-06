@@ -69,7 +69,20 @@ async function run() {
       }
       next()
     }
-    
+
+
+     app.post('/users', async (req, res) => {
+      const usersBody = req.body
+      // new up
+      const query = { userEmail: usersBody.userEmail }
+      const existingUser = await usersCollection.findOne(query)
+      if (existingUser) {
+        return res.send({ message: 'user already exists', insertedId: null })
+      }
+      // new up
+      const result = await usersCollection.insertOne(usersBody)
+      res.send(result)
+    })
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
