@@ -89,6 +89,13 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/users/role/:email', async (req, res) => {
+      const userEmail = req.params.email
+      const query = { userEmail }
+      const result = await usersCollection.findOne(query)
+      res.send({ userRole: result?.userRole })
+    })
+
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
