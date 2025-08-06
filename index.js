@@ -96,6 +96,20 @@ async function run() {
       res.send({ userRole: result?.userRole })
     })
 
+    
+    // user role update//
+    app.patch('/users/role/:email', verifyToken, verifyAdmin, async (req, res) => {
+      const userEmail = req.params.email
+      const { userRole } = req.body
+      const filter = { userEmail }
+      updateDoc = {
+        $set: { userRole },
+      };
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      res.send(result)
+    })
+
+
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
