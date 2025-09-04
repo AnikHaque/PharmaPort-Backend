@@ -127,6 +127,14 @@ async function run() {
       res.send(result);
     });
 
+    //  users delete/
+    app.delete("/users/:id", verifyToken, verifyAdmin, async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) };
+      const result = await usersCollection.deleteOne(query);
+      res.send(result)
+    })
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
