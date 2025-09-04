@@ -135,6 +135,22 @@ async function run() {
       res.send(result)
     })
 
+    // category//
+
+    app.get('/category', async (req, res) => {
+      try {
+        const categories = await categoryCollection.find().toArray();
+        const categoryWithCount = await Promise.all(categories.map(async (category) => {
+          const productCount = await medicineCollection.countDocuments({ medicineCategory: category.categoryName });
+          return { ...category, productCount };
+        }));
+
+        res.send(categoryWithCount);
+      } catch (error) {
+        res.status(500).send({ message: 'Error fetching data' });
+      }
+    });
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
