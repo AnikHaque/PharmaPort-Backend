@@ -151,6 +151,12 @@ async function run() {
       }
     });
 
+     app.post('/category', verifyToken, verifyAdmin, async (req, res) => {
+      const categoryBody = req.body
+      const result = await categoryCollection.insertOne(categoryBody)
+      res.send(result)
+    })
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
