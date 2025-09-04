@@ -157,10 +157,23 @@ async function run() {
       res.send(result)
     })
 
+    //  category update
+    app.put('/category/:id', verifyToken, verifyAdmin, async (req, res) => {
+      const id = req.params.id
+      const filter = { _id: new ObjectId(id) }
+      const updateCategory = req.body
+      const updateDoc = {
+        $set: {
+          categoryName: updateCategory.categoryName,
+          categoryImage: updateCategory.categoryImage,
+        }
+      }
+      const result = await categoryCollection.updateOne(filter, updateDoc);
+      res.send(result)
+    })
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
-    // Ensures that the client will close when you finish/error
-    // await client.close();
   }
 }
 run().catch(console.dir);
