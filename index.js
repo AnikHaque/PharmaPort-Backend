@@ -180,6 +180,14 @@ async function run() {
       res.send(result)
     })
 
+     //  .............advertisement ////////////
+
+
+    app.get('/advertisement', verifyToken, async (req, res) => {
+      const result = await advertisementCollection.find().toArray()
+      res.send(result)
+    })
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
   }
