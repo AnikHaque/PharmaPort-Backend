@@ -207,6 +207,13 @@ async function run() {
       }
     });
 
+
+  app.post('/advertisement', verifyToken, async (req, res) => {
+      const advertisementsBody = req.body
+      const result = await advertisementCollection.insertOne(advertisementsBody)
+      res.send(result)
+    })
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
   }
