@@ -195,6 +195,18 @@ async function run() {
       res.send(result)
     })
 
+       app.get('/acceptad-advertisement', async (req, res) => {
+      try {
+        const result = await advertisementCollection
+          .find({ advertisementStatus: "Accept" })
+          .toArray();
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching advertisements:", error);
+        res.status(500).send({ error: "Failed to fetch advertisements" });
+      }
+    });
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
   }
