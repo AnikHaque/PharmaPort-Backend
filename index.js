@@ -188,6 +188,13 @@ async function run() {
       res.send(result)
     })
 
+     app.get('/seller-advertisement/:email', verifyToken, async (req, res) => {
+      const email = req.params.email
+      const query = { requestEmail: email }
+      const result = await advertisementCollection.find(query).toArray()
+      res.send(result)
+    })
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
   }
