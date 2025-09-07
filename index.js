@@ -258,7 +258,20 @@ async function run() {
       res.send(result)
     })
 
-
+ app.get('/latest-product', async (req, res) => {
+      try {
+        const result = await medicineCollection
+          .find()
+          .sort({ _id: -1 }) // Newest products first (descending order)
+          .limit(8) // Limit to the latest 6 products
+          .toArray();
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching latest products:", error);
+        res.status(500).send({ error: "Failed to fetch latest products" });
+      }
+    });
+    
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
   }
