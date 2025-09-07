@@ -271,7 +271,14 @@ async function run() {
         res.status(500).send({ error: "Failed to fetch latest products" });
       }
     });
-    
+
+    app.get('/medicine/manage/:email', async (req, res) => {
+      const email = req.params.email
+      const query = { sellerEmail: email }
+      const result = await medicineCollection.find(query).toArray()
+      res.send(result)
+    })
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
   }
