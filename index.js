@@ -232,6 +232,33 @@ async function run() {
       res.send(result)
     })
 
+     // medicine collcektion //
+
+    app.get('/medicine', async (req, res) => {
+      // search filter setup/
+      const search = req.query.search
+      const sort = req.query.sort
+      const query = {
+        $or: [
+          { medicineName: { $regex: search, $options: 'i' } },
+          { medicineCategory: { $regex: search, $options: 'i' } },
+          {
+            genericName: { $regex: search, $options: 'i' }
+          },
+          {
+            company: { $regex: search, $options: 'i' }
+          },
+
+        ]
+      };
+
+      let options = {}
+      if (sort) options = { sort: { perUnitPrice: sort === "asc" ? 1 : -1 } }
+      const result = await medicineCollection.find(query, options).toArray()
+      res.send(result)
+    })
+
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
   }
